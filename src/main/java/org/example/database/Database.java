@@ -14,7 +14,6 @@ public class Database {
         String url = PropertyReader.getConnectionURLForPostgres();
         String user = PropertyReader.getUserForPostgres();
         String password = PropertyReader.getPasswordForPostgres();
-        String DbName = PropertyReader.getDBName();
 
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -39,22 +38,5 @@ public class Database {
         }
     }
 
-    public int executeUpdate(String query) {
-        try (Statement statement = connection.createStatement()) {
-            return statement.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.println(SQL_EX_MESSAGE + e.getMessage());
-        }
-        return 0;
-    }
-
-    public ResultSet executeQuery(String query){
-        try (Statement statement = connection.createStatement()) {
-            return statement.executeQuery(query);
-        } catch (SQLException e) {
-            System.out.println(SQL_EX_MESSAGE + e.getMessage());
-        }
-        return null;
-    }
 
 }

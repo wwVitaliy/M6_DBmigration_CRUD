@@ -3,6 +3,8 @@ package org.example.database;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,12 @@ public class DatabaseInitService {
         if (initCommand.toString().isBlank()) {
             System.out.println("There are no commands in \"" + FILE_INIT_BD + "\"");
         } else {
-            Database.getInstance().executeUpdate(initCommand.toString());
+            try (Statement statement = Database.getConnection().createStatement()){
+                statement.executeUpdate(initCommand.toString());
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

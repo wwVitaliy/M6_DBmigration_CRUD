@@ -1,5 +1,5 @@
 -- find workers with max salary
-select * from worker
+select name, salary from worker
 	where salary = (
 		select salary from worker w 
 			order by salary desc
