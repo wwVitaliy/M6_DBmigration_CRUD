@@ -23,16 +23,38 @@ class DatabaseQueryServiceTest {
     }
 
     @Test
-    void findLongestProjectIdFromInitData() {
+    void testLongestProjectIdFromInitData() {
         List<LongestProject> longestProjects
                 = new DatabaseQueryService().findLongestProjects();
         assertEquals(6, longestProjects.get(0).id());
     }
 
     @Test
-    void findLongestProjectMonthCountFromInitData() {
+    void testLongestProjectMonthCountFromInitData() {
         List<LongestProject> longestProjects
                 = new DatabaseQueryService().findLongestProjects();
         assertEquals(89, longestProjects.get(0).month_count());
     }
+
+    @Test
+    void testMaxSalaryWorkersCountFromInitData() {
+        List<MaxSalaryWorker> maxSalaryWorkers
+                = new DatabaseQueryService().findMaxSalaryWorkers();
+        assertEquals(2, maxSalaryWorkers.size());
+    }
+
+    @Test
+    void testMaxSalaryWorkersSalaryFromInitData() {
+        List<MaxSalaryWorker> maxSalaryWorkers
+                = new DatabaseQueryService().findMaxSalaryWorkers();
+        assertEquals(6000, maxSalaryWorkers.get(0).salary());
+    }
+
+    @Test
+    void testYoungestEldestWorkersCountFromInitData() {
+        List<YoungestEldestWorker> youngestEldestWorkers
+                = new DatabaseQueryService().findYoungestEldestWorker();
+        assertEquals(2, youngestEldestWorkers.size());
+    }
+
 }

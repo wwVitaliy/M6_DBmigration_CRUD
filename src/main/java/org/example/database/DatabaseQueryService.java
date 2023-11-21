@@ -12,6 +12,59 @@ import java.util.List;
 public class DatabaseQueryService {
     public static final String MAX_PROJECTS_CLIENTS_SQL = "sql/find_max_projects_client.sql";
     public static final String LONGEST_PROJECTS_SQL = "sql/find_longest_project.sql";
+    public static final String MAX_SALARY_WORKERS_SQL = "sql/find_max_salary_worker.sql";
+    public static final String YOUNGEST_OLDEST_WORKERS_SQL = "sql/find_youngest_eldest_workers.sql";
+
+
+    public List<YoungestEldestWorker> findYoungestEldestWorker(){
+        ArrayList<YoungestEldestWorker> youngestEldestWorkers = new ArrayList<>();
+
+        try (Statement statement = Database.getConnection().createStatement()) {
+            ResultSet resultSet  = statement.executeQuery(
+                    createSqlQuery(
+                            readFileAsList(YOUNGEST_OLDEST_WORKERS_SQL)));
+
+            while (resultSet.next()) {
+                youngestEldestWorkers.add(
+                        new YoungestEldestWorker(
+                                resultSet.getString("type"),
+                                resultSet.getString("name"),
+                                resultSet.getString("birthday")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+
+
+        return youngestEldestWorkers;
+    }
+
+    public List<MaxSalaryWorker> findMaxSalaryWorkers(){
+        ArrayList<MaxSalaryWorker> maxSalaryWorkers = new ArrayList<>();
+
+        try (Statement statement = Database.getConnection().createStatement()) {
+            ResultSet resultSet  = statement.executeQuery(
+                    createSqlQuery(
+                            readFileAsList(MAX_SALARY_WORKERS_SQL)));
+
+            while (resultSet.next()) {
+                maxSalaryWorkers.add(
+                        new MaxSalaryWorker(
+                                resultSet.getString("name"),
+                                resultSet.getInt("salary")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return maxSalaryWorkers;
+    }
+
 
 
     public List<LongestProject> findLongestProjects(){
