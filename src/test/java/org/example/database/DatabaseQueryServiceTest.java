@@ -57,4 +57,11 @@ class DatabaseQueryServiceTest {
         assertEquals(2, youngestEldestWorkers.size());
     }
 
+    @Test
+    void testProjectPricesCountFromInitData() {
+        List<ProjectPrice> projectPrices
+                = new DatabaseQueryService().findProjectPrices();
+        assertEquals(10, projectPrices.size());
+
+    }
 }

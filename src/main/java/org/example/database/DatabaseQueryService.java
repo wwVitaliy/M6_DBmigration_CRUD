@@ -14,7 +14,31 @@ public class DatabaseQueryService {
     public static final String LONGEST_PROJECTS_SQL = "sql/find_longest_project.sql";
     public static final String MAX_SALARY_WORKERS_SQL = "sql/find_max_salary_worker.sql";
     public static final String YOUNGEST_OLDEST_WORKERS_SQL = "sql/find_youngest_eldest_workers.sql";
+    public static final String PROJECT_PRICES_SQL = "sql/print_project_prices.sql";
 
+
+    public List<ProjectPrice> findProjectPrices(){
+        ArrayList<ProjectPrice> projectPrices = new ArrayList<>();
+
+        try (Statement statement = Database.getConnection().createStatement()) {
+            ResultSet resultSet  = statement.executeQuery(
+                    createSqlQuery(
+                            readFileAsList(PROJECT_PRICES_SQL)));
+
+            while (resultSet.next()) {
+                projectPrices.add(
+                        new ProjectPrice(
+                                resultSet.getInt("project_id"),
+                                resultSet.getInt("price")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return projectPrices;
+    }
 
     public List<YoungestEldestWorker> findYoungestEldestWorker(){
         ArrayList<YoungestEldestWorker> youngestEldestWorkers = new ArrayList<>();
@@ -36,8 +60,6 @@ public class DatabaseQueryService {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-
-
 
         return youngestEldestWorkers;
     }
