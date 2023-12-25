@@ -30,13 +30,12 @@ public class Database {
         return INSTANCE;
     }
 
-    public void closeConnection (){
+    public static void closeConnection (){
         try{
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
 
 }

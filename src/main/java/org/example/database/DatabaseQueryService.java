@@ -1,4 +1,4 @@
-package org.example.database.m4;
+package org.example.database;
 
 import org.example.database.Database;
 import org.example.database.records.*;
