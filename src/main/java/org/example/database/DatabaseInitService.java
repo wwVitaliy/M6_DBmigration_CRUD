@@ -1,5 +1,7 @@
 package org.example.database;
 
+import org.example.database.Database;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

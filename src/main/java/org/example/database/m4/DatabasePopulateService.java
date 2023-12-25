@@ -1,4 +1,6 @@
-package org.example.database;
+package org.example.database.m4;
+
+import org.example.database.Database;
 
 import java.io.IOException;
 import java.nio.file.Files;

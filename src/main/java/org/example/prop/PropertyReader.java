@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class PropertyReader {
     public static final String APPLICATION_PROPERTIES_FILE = "application.properties";
-    public static final String APPLICATION_PROPERTIES_FILE_EX_MESSAGE = "Cannot find application.properties";
+    public static final String APPLICATION_PROPERTIES_FILE_EX_MESSAGE = "Cannot find " + APPLICATION_PROPERTIES_FILE;
     public static final String JDBC_TYPE_POSTGRES = "jdbc:postgresql://";
     public static final String POSTGRES_HOST_PROP_NAME = "postgres.db.host";
     public static final String POSTGRES_PORT_PROP_NAME = "postgres.db.port";
