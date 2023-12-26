@@ -1,4 +1,4 @@
 package org.example.database.dao;
 
-public record Client(int id, String name) {
+public record Client(long id, String name) {
 }
