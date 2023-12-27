@@ -10,8 +10,6 @@ import java.util.List;
 public class ClientService {
     private static final String CREATE_CLIENT_SQL
             = "INSERT INTO client (name) VALUES (?);";
-    private static final String GET_CLIENT_ID_SQL
-            = "SELECT * FROM client WHERE name = ? ORDER BY id DESC LIMIT 1;";
     private static final String GET_CLIENT_NAME_SQL
             = "SELECT * FROM client WHERE id = ?;";
     private static final String SET_CLIENT_NAME_SQL
@@ -23,7 +21,6 @@ public class ClientService {
     private final Connection CONNECTION;
 
     private PreparedStatement createStatement;
-    private PreparedStatement getClientIdStatement;
     private PreparedStatement getClientNameStatement;
     private PreparedStatement setClientNameStatement;
     private PreparedStatement deleteClientByIdStatement;
@@ -38,8 +35,7 @@ public class ClientService {
         this.CONNECTION = connection;
 
         try {
-            this.createStatement = CONNECTION.prepareStatement(CREATE_CLIENT_SQL);
-            this.getClientIdStatement = CONNECTION.prepareStatement(GET_CLIENT_ID_SQL);
+            this.createStatement = CONNECTION.prepareStatement(CREATE_CLIENT_SQL, Statement.RETURN_GENERATED_KEYS);
             this.getClientNameStatement = CONNECTION.prepareStatement(GET_CLIENT_NAME_SQL);
             this.setClientNameStatement = CONNECTION.prepareStatement(SET_CLIENT_NAME_SQL);
             this.deleteClientByIdStatement = CONNECTION.prepareStatement(DELETE_CLIENT_BY_ID_SQL);
@@ -61,29 +57,14 @@ public class ClientService {
 
         //DB shenanigans
         try {
-            CONNECTION.setAutoCommit(false);
-
             createStatement.setString(1, name);
             createStatement.executeUpdate();
+            ResultSet generatedKeys = createStatement.getGeneratedKeys();
+            if (generatedKeys.next()) return generatedKeys.getLong("id");
 
-            getClientIdStatement.setString(1, name);
-            ResultSet rs = getClientIdStatement.executeQuery();
-            if (rs.next()) {
-                return rs.getLong("id");
-            }
         } catch (SQLException e) {
-            try {
-                CONNECTION.rollback();
-            } catch (SQLException ex) {
-                System.out.println("Cannot rollback. Reason: " + e.getMessage());
-            }
+
             System.out.println("Cannot create client. Reason: " + e.getMessage());
-        } finally {
-            try {
-                CONNECTION.setAutoCommit(true);
-            } catch (SQLException e) {
-                System.out.println("Cannot setAutoCommit true. Reason: " + e.getMessage());
-            }
         }
 
         return -1;
